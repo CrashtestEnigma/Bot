@@ -1,0 +1,138 @@
+import discord
+from discord.ext import commands
+import asyncio
+import re
+from replit import db
+from discord.ext import tasks
+
+class ImagePerms(commands.Cog):
+  
+
+    def __init__(self, client):
+        self.client = client
+
+ 
+    @tasks.loop(seconds = 86400)
+    async def dbclear():
+      db.clear()
+    dbclear.start()  
+    
+
+    @commands.command()
+    async def images(self , ctx):
+      try:
+        await ctx.send(f"You have {db[str(ctx.message.author.id)]} image perms left")
+      except Exception:
+        await ctx.send("You have 2 image perms left")  
+
+
+
+    @commands.Cog.listener()
+
+    
+    async def on_message(self, message):
+      global y
+     
+      if not message.author.bot:
+
+        #gettin' all the roles
+        strangers = self.client.get_guild(783547639944839178)
+        lvl5 = discord.utils.get(strangers.roles, name='lvl 5')
+        lvl10 = discord.utils.get(strangers.roles, name='lvl 10')
+        lvl20 = discord.utils.get(strangers.roles, name='lvl 20')
+        lvl30 = discord.utils.get(strangers.roles, name='lvl 30')
+        lvl40 = discord.utils.get(strangers.roles, name='lvl 40')
+        lvl50 = discord.utils.get(strangers.roles, name='lvl 50')
+        lvl60 = discord.utils.get(strangers.roles, name='lvl 60')
+        lvl70 = discord.utils.get(strangers.roles, name='lvl 70')
+        lvl80 = discord.utils.get(strangers.roles, name='lvl 80')
+        lvl90 = discord.utils.get(strangers.roles, name='lvl 90')
+        lvl100 = discord.utils.get(strangers.roles, name='lvl 100')
+
+        #keepin' all the lvl roles in a set, you'll see why later
+        role_set = {lvl5, lvl10, lvl20, lvl30, lvl40, lvl50, lvl60, lvl70, lvl80, lvl90, lvl100}
+
+        #A dictionary of the lvl roles and assigned values
+        lvlquota = {
+          'lvl 5':5,
+          'lvl 10':8,
+          'lvl 20':11,
+          'lvl 30':14,
+          'lvl 40':17,
+          'lvl 50':20,
+          'lvl 60':23,
+          'lvl 70':26,
+          'lvl 80':29,
+          'lvl 90':32,
+          'lvl 100':35
+        }
+
+        #thats the url regex to check if theres a url in the message, this system is for urls and images both
+        urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', message.content)
+        
+
+        #checking if the message has images/videos or links
+        y = None
+        for r in message.author.roles:
+          
+                if r.is_premium_subscriber():
+                  #lemme check
+                  #there is no color pink +_+
+                    
+                  db[f"{message.author.id}"] = 9999999999
+                  y = True
+
+        if not y: 
+          if message.attachments or urls:
+          
+            uniqueroles = set(message.author.roles)
+            keys = list(db.keys())
+            if str(message.author.id) in keys and message.channel.id != 785536392133476363:
+              common_role_set = role_set.intersection(uniqueroles)
+              common_role_list = list(common_role_set)
+              
+              if common_role_list:
+                role = common_role_list[0]
+                for x in lvlquota:
+                  if x == role.name:
+                    amount = db[f"{message.author.id}"]
+                    print(amount)
+                    if amount != 0:
+                        db[message.author.id] = int(int(amount) - 1)
+                    else: 
+                        await message.delete()
+                        await message.channel.send(f"{message.author.mention} You have ran out of your daily image quota . You can still post media in images channel")     
+              else:
+                amount = db[f"{message.author.id}"]
+                if amount != 0:
+                  db[message.author.id] = int(int(amount)-1)
+                else:
+                  await message.delete()
+                  await message.channel.send(f"{message.author.mention} You have ran out of your daily image quota . You can still post media in images channel")   
+
+            else:
+              db[f"{message.author.id}"] = 0
+              common_role_set = role_set.intersection(uniqueroles)
+              common_role_list = list(common_role_set)
+              if common_role_list: 
+                role = common_role_list[0]
+                for x in lvlquota:
+                    if x == role.name:
+                      try:
+                        db[f"{message.author.id}"] = lvlquota[x] - 1
+                      except Exception:
+                        pass 
+              else:
+                db[f"{message.author.id}"] = 1
+                          
+
+
+          
+
+               
+                
+              
+
+def setup(client):
+  client.add_cog(ImagePerms(client))
+      
