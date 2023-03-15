@@ -34,4 +34,3 @@ tornado==6.2
 trove_classifiers==2023.3.9
 truststore==0.6.0
 xmlrpclib==1.0.1
-youtube_dl==2021.12.17
