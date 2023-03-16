@@ -41,7 +41,7 @@ async def on_member_join(member):
 	                      description='',
 	                      colour=discord.Colour.blue())
   embed.set_image(url=random.choice(welcome_gifs))
-  embed.set_footer(text=f'You are our {count}th member!', icon_url=member.avatar_url)
+  embed.set_footer(text=f'You are our {count}th member!', icon_url=member.guild_avatar.url)
 
   if not member.bot:
     await channel.send(member.mention, embed=embed)
