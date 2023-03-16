@@ -136,15 +136,15 @@ class utilities(commands.Cog):
     async def deleteroles(self, ctx):
         message = await ctx.send("Deleting useless ahh roles")
         for role in ctx.guild.roles:
-            if role.name=="":
+            if not role.name:
                 print("Found empty role")
                 await role.delete()
         
-                message.edit("Deleting useless ahh roles.")
-                message.edit("Deleting useless ahh roles..")
-                message.edit("Deleting useless ahh roles...")
+                message.edit(content="Deleting useless ahh roles.")
+                message.edit(content="Deleting useless ahh roles..")
+                message.edit(content="Deleting useless ahh roles...")
             
-        message.edit("Done!")
+        message.edit(content="Done!")
 
 
 	
