@@ -131,6 +131,17 @@ class utilities(commands.Cog):
       url = member.avatar_url
       await ctx.send(url)
 
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def deleteroles(self, ctx):
+        message = await ctx.send("Deleting useless ahh roles")
+        for role in ctx.guild.roles:
+            if role.name==None:
+                await role.delete()
+        
+                message.edit("Deleting useless ahh roles.")
+                message.edit("Deleting useless ahh roles..")
+                message.edit("Deleting useless ahh roles...")
 
 
 
