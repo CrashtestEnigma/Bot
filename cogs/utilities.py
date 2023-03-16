@@ -131,20 +131,27 @@ class utilities(commands.Cog):
       url = member.avatar_url
       await ctx.send(url)
 
-    @commands.command()
+    @commands.command(aliases = ["dr"])
     @commands.has_permissions(administrator=True)
     async def deleteroles(self, ctx):
+        count = 0
         message = await ctx.send("Deleting useless ahh roles")
+        print(ctx.guild)
         for role in ctx.guild.roles:
             if not role.name:
                 print("Found empty role")
                 await role.delete()
         
-                message.edit(content="Deleting useless ahh roles.")
-                message.edit(content="Deleting useless ahh roles..")
-                message.edit(content="Deleting useless ahh roles...")
+                await message.edit(content="Deleting useless ahh roles.")
+                await message.edit(content="Deleting useless ahh roles..")
+                await message.edit(content="Deleting useless ahh roles...")
             
-        message.edit(content="Done!")
+        for rl in ctx.guild.roles:
+            if not rl.name:
+                count=0
+        if count == 0:
+            await ctx.send(f"Count = {count}")
+            
 
 
 	
