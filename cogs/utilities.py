@@ -157,7 +157,7 @@ class utilities(commands.Cog):
     async def checkroles(self, ctx):
         count=0
         for role in ctx.guild.roles:
-            if role.name=="‎":
+            if not role.name:
                 count+=1
         await ctx.send(count)
 
