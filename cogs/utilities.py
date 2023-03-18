@@ -138,7 +138,7 @@ class utilities(commands.Cog):
         message = await ctx.send("Deleting useless ahh roles")
         print(ctx.guild)
         for role in ctx.guild.roles:
-            if role.name==" ㅤ":
+            if role.name=="ㅤ":
                 count+=1
                 print("Found empty role")
                 await role.delete()
