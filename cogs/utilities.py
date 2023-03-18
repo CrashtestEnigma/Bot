@@ -151,6 +151,16 @@ class utilities(commands.Cog):
                 count=count+1
         if count == 0:
             await ctx.send(f"Count = {count}")
+
+    @commands.command(aliases = ["cr"])
+    @commands.has_permissions(administrator=True)
+    async def checkroles(self, ctx):
+        count=0
+        for role in ctx.guild.roles:
+            if role.name=="‎":
+                count+=1
+        await ctx.send(count)
+
             
 
 
