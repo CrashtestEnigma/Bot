@@ -161,6 +161,17 @@ class utilities(commands.Cog):
                 count+=1
         await ctx.send(count)
 
+    @commands.command(aliases = ["lr"])
+    @commands.has_permissions(administrator=True)
+    async def listroles(self, ctx):
+        count=0
+        await ctx.send(f"I found {len(ctx.guild.roles)} roles in this server.")
+
+        for rl in ctx.guild.roles:
+            if rl:
+                count+=1
+                await ctx.send(f"{count}. {rl.name}")
+
             
 
 
