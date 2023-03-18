@@ -142,6 +142,7 @@ class utilities(commands.Cog):
                 count+=1
                 print("Found empty role")
                 await role.delete()
+        await ctx.send("Done")
         await ctx.send(count)
 
         
