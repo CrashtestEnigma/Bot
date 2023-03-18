@@ -138,25 +138,18 @@ class utilities(commands.Cog):
         message = await ctx.send("Deleting useless ahh roles")
         print(ctx.guild)
         for role in ctx.guild.roles:
-            if role.name=="‎":
+            if role.name==" ㅤ":
+                count+=1
                 print("Found empty role")
                 await role.delete()
-        
-                await message.edit(content="Deleting useless ahh roles.")
-                await message.edit(content="Deleting useless ahh roles..")
-                await message.edit(content="Deleting useless ahh roles...")
-            
-        for rl in ctx.guild.roles:
-            if rl.name=="‎":
-                count=count+1
-        if count == 0:
-            await ctx.send(f"Count = {count}")
+        await ctx.send(count)
 
+        
     @commands.command(aliases = ["cr"])
     @commands.has_permissions(administrator=True)
     async def checkroles(self, ctx):
         count=0
-        for role in ctx.guild.roles:
+        for role in ctx.guild.roles: 
             if not role.name:
                 count+=1
         await ctx.send(count)
